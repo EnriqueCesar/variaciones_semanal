@@ -20,8 +20,8 @@
   <div><label>Tienda</label><select id="storeFilter"></select></div>
   <div><label>Categoría</label><select id="catFilter"></select></div>
   <div class="wide"><label>Ingrediente</label><select id="ingredientSelect"><option value="Todos">Todos</option></select></div>
-  <div><label>Vista principal</label><div class="segmented" id="metricButtons"><button class="active" data-metric="money">$</button><button data-metric="qty">Unidades</button></div></div>
-  <div><label>Top</label><div class="segmented small" id="topButtons"></div></div>
+  <div class="metricFilter"><label>Vista principal</label><div class="segmented" id="metricButtons"><button class="active" data-metric="money">$</button><button data-metric="qty">Unidades</button></div></div>
+  <div class="topFilter"><label>Top</label><select id="topSelect" aria-label="Cantidad de elementos Top"></select></div>
   <div class="actions"><button id="clearBtn">Limpiar</button><button id="csvBtn">CSV</button><button id="pdfBtn">PDF</button></div>
 </section>
 <section class="kpis">
@@ -34,7 +34,7 @@
 <section id="storeTab" class="tabPanel active">
   <div class="grid two"><article class="panel"><div class="title"><h2>Variación $ por semana</h2><small>Faltante arriba · sobrante abajo · neto en línea</small></div><canvas id="moneyTrend"></canvas></article><article class="panel"><div class="title"><h2>Variación en unidades</h2><small>Cantidad faltante/sobrante por semana</small></div><canvas id="qtyTrend"></canvas></article></div>
   <div class="grid two"><article class="panel"><div class="title"><h2>Top faltantes</h2><div class="miniControls"><button class="rankMetric active" data-rank="missing" data-metric="money">$</button><button class="rankMetric" data-rank="missing" data-metric="qty">Unidades</button></div></div><div id="topMissing" class="rank"></div></article><article class="panel"><div class="title"><h2>Top sobrantes</h2><div class="miniControls"><button class="rankMetric active" data-rank="surplus" data-metric="money">$</button><button class="rankMetric" data-rank="surplus" data-metric="qty">Unidades</button></div></div><div id="topSurplus" class="rank"></div></article></div>
-  <div class="grid two"><article class="panel"><div class="title"><h2>Producto seleccionado</h2><small id="selectedProductLabel">Producto foco</small></div><canvas id="unitCostChart"></canvas></article><article class="panel"><div class="title"><h2>Foco recomendado</h2><small>Lectura rápida para acción</small></div><div id="alerts" class="alerts"></div></article></div>
+  <div class="grid two"><article class="panel"><div class="title"><h2>Costo unitario</h2><small id="selectedProductLabel">Producto foco</small></div><canvas id="unitCostChart"></canvas></article><article class="panel"><div class="title"><h2>Foco recomendado</h2><small>Lectura rápida para acción</small></div><div id="alerts" class="alerts"></div></article></div>
 </section>
 <section id="dmTab" class="tabPanel"><div class="grid two"><article class="panel"><h2>Tiendas por impacto $</h2><canvas id="storeImpactChart"></canvas></article><article class="panel"><h2>Tiendas por unidades</h2><canvas id="storeQtyChart"></canvas></article></div><article class="panel"><h2>Mapa rápido por tienda</h2><div id="storeCards" class="storeCards"></div></article></section>
 <section id="deepTab" class="tabPanel"><article class="panel"><div class="title"><h2>Drill-down operativo</h2><div class="sorts"><button data-sort="impactDesc">Impacto $ ↓</button><button data-sort="impactAsc">Impacto $ ↑</button><button data-sort="qtyDesc">Unidades ↓</button><button data-sort="qtyAsc">Unidades ↑</button></div></div><div class="tableWrap"><table id="detailTable"><thead><tr><th>DM</th><th>Tienda</th><th>Mes</th><th>Semana</th><th>Categoría</th><th>Ingrediente</th><th>Costo unit.</th><th>Unidades</th><th>Impacto $</th><th>Tipo</th></tr></thead><tbody></tbody></table></div></article></section>

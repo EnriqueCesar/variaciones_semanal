@@ -15,3 +15,10 @@ Publicación:
 1. Sube todos los archivos a la raíz del repositorio.
 2. En GitHub Pages selecciona Branch main / root.
 3. Abre el sitio publicado.
+
+
+Actualización 5.1 LIMPIO:
+- Top ahora usa lista desplegable estética para evitar desbordes.
+- Vista principal ($ / Unidades) alineada y responsive.
+- Gráfica de costo unitario con escala útil, decimales y lectura de costo estable.
+- Filtros más ordenados y sin elementos innecesarios visibles.
