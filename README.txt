@@ -1,42 +1,44 @@
-VARIACIONES DE PRODUCTO · V2 LIGERA
+VARIACIONES DE PRODUCTO · MEJORA CONTINUA V3
 
-Objetivo
-- Dashboard PWA limpio para tomar decisiones rápidas sobre variaciones de producto.
-- Funciona en GitHub Pages y mantiene cada archivo por debajo de 20 MB.
+Carga en GitHub Pages:
+1) Descomprime este ZIP.
+2) Sube TODO el contenido directo a la raíz del repositorio, no dentro de otra carpeta.
+3) En GitHub: Settings > Pages > Deploy from branch > main > /root.
+4) Espera el despliegue.
 
-Cómo subir a GitHub
-1. Descomprime el ZIP.
-2. Sube TODO el contenido directamente a la raíz del repositorio.
-3. En GitHub: Settings > Pages > Deploy from a branch > main > /(root).
-4. Espera el despliegue.
+Archivos clave:
+- index.html
+- style.css
+- app.js
+- charts.js
+- config.js
+- manifest.webmanifest
+- sw.js
+- assets/logo.svg
+- assets/icon.svg
+- data/Variacion_Semanal.xlsx
 
-Archivos principales
-- index.html: entrada del dashboard.
-- style.css: diseño limpio ejecutivo.
-- app.js: filtros, cálculos, tabla, exportación.
-- charts.js: gráficas.
-- config.js: configuración general.
-- manifest.webmanifest y sw.js: PWA.
-- data/Variacion_Semanal.xlsx: archivo base de información.
-- assets/logo.svg e icon.svg: identidad genérica del proyecto.
+Lectura de datos:
+- Lee directo data/Variacion_Semanal.xlsx con SheetJS desde el navegador.
+- Si GitHub tarda o se usa localmente, usa el botón Cambiar Excel.
+- Usa hoja Variacion_Semanal y, si existe, Base_Mes_Semana para Año > Mes > Semana.
 
-Lectura de datos
-- El dashboard lee directamente data/Variacion_Semanal.xlsx.
-- Usa la hoja Variacion_Semanal para datos.
-- Usa Base_Mes_Semana para convertir Semana a Mes.
-- Si el Excel no carga por caché o ruta, usa el botón Cargar Excel.
+Regla operativa:
+- Varianza negativa = SOBRANTE, color rojo.
+- Varianza positiva = FALTANTE, color negro.
+- Costo de Varianza = impacto monetario.
 
-Reglas de lectura
-- Varianza (#) negativa = sobrante en conteo.
-- Varianza (#) positiva = faltante.
-- Costo de Varianza ($) = impacto monetario.
+Mejoras V3:
+- Filtros dinámicos DM, tienda, tipo, categoría, ingrediente, año, mes, semana, enfoque y top.
+- Top configurable 10, 15, 20, 25, 30.
+- Vista por dinero o por cantidad.
+- Alertas inmediatas.
+- Tendencia por semana/mes.
+- Faltantes vs sobrantes.
+- Pareto 80/20.
+- Heatmap semanal.
+- Ranking de oportunidad por tienda o categoría.
+- Detalle exportable en CSV.
 
-Enfoque de mejora continua
-- Prioriza productos con mayor impacto absoluto.
-- Permite ver tendencia semanal en dinero y unidades.
-- Pareto 80/20 ayuda a enfocar pocas causas de alto impacto.
-- Heatmap muestra semanas críticas rápidamente.
-- Ranking separa faltantes y sobrantes.
-
-Nota
-- El campo Tipo tienda queda preparado para integrar catálogo de tiendas. Si el Excel base incluye un catálogo por tienda, puede conectarse en app.js sin cambiar la experiencia.
+Nota:
+Este proyecto usa CDN para Chart.js y SheetJS, evitando archivos pesados. Cada archivo queda debajo de 20 MB.

@@ -1,8 +1,5 @@
-window.DashCharts=(()=>{const charts={};
-function fmtMoney(v){return new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(v||0)}
-function fmtNum(v){return new Intl.NumberFormat('es-MX',{maximumFractionDigits:1}).format(v||0)}
-function make(id,type,data,options={}){if(charts[id])charts[id].destroy();const ctx=document.getElementById(id);if(!ctx)return;charts[id]=new Chart(ctx,{type,data,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,usePointStyle:true}},tooltip:{callbacks:{label:c=>`${c.dataset.label||''}: ${c.dataset.money?fmtMoney(c.raw):fmtNum(c.raw)}`}}},scales:{x:{grid:{display:false}},y:{ticks:{callback:v=>options.money?fmtMoney(v):fmtNum(v)}}},...options}})}
-function trend(labels,money,qty){make('trendChart','line',{labels,datasets:[{label:'Impacto $',data:money,borderWidth:3,tension:.32,fill:true,backgroundColor:'rgba(0,98,65,.12)',borderColor:'#006241',pointRadius:3,money:true},{label:'Cantidad #',data:qty,borderWidth:2,tension:.32,borderColor:'#111827',pointRadius:2,yAxisID:'y1'}]}, {money:true,scales:{x:{grid:{display:false}},y:{ticks:{callback:v=>fmtMoney(v)}},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:v=>fmtNum(v)}}}})}
-function mix(labels,shorts,overs){make('mixChart','bar',{labels,datasets:[{label:'Faltante #',data:shorts,backgroundColor:'#111827'},{label:'Sobrante #',data:overs,backgroundColor:'#c62828'}]}, {indexAxis:'y'})}
-function pareto(labels,values,cum){make('paretoChart','bar',{labels,datasets:[{label:'Impacto absoluto $',data:values,backgroundColor:'#006241',money:true},{type:'line',label:'Acumulado %',data:cum,borderColor:'#b78935',borderWidth:3,yAxisID:'y1'}]}, {money:true,scales:{x:{grid:{display:false}},y:{ticks:{callback:v=>fmtMoney(v)}},y1:{position:'right',min:0,max:100,grid:{drawOnChartArea:false},ticks:{callback:v=>v+'%'}}}})}
-return{trend,mix,pareto,fmtMoney,fmtNum};})();
+const ChartHub=(()=>{const charts={};
+function kill(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
+function fmt(v,metric='money'){return metric==='qty'?Intl.NumberFormat('es-MX',{maximumFractionDigits:1}).format(v):Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(v)}
+function make(id,type,data,opts={}){kill(id);const ctx=document.getElementById(id);if(!ctx)return;charts[id]=new Chart(ctx,{type,data,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:opts.legend??true,position:'bottom'},tooltip:{callbacks:{label:(c)=>`${c.dataset.label||''}: ${fmt(c.raw,opts.metric)}`}}},scales:opts.scales||{},...opts.extra}})}
+return{make,fmt};})();
