@@ -1,5 +1,7 @@
-const ChartHub=(()=>{const charts={};
-function kill(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
-function fmt(v,metric='money'){return metric==='qty'?Intl.NumberFormat('es-MX',{maximumFractionDigits:1}).format(v):Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(v)}
-function make(id,type,data,opts={}){kill(id);const ctx=document.getElementById(id);if(!ctx)return;charts[id]=new Chart(ctx,{type,data,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:opts.legend??true,position:'bottom'},tooltip:{callbacks:{label:(c)=>`${c.dataset.label||''}: ${fmt(c.raw,opts.metric)}`}}},scales:opts.scales||{},...opts.extra}})}
-return{make,fmt};})();
+const chartRegistry={};
+function money(v){return new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(v||0)}
+function num(v,d=1){return new Intl.NumberFormat('es-MX',{maximumFractionDigits:d}).format(v||0)}
+function destroyChart(id){if(chartRegistry[id]){chartRegistry[id].destroy();delete chartRegistry[id];}}
+function makeChart(id,type,labels,datasets,options={}){destroyChart(id);const el=document.getElementById(id);if(!el)return;chartRegistry[id]=new Chart(el,{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:10,usePointStyle:true}},tooltip:{callbacks:{label:ctx=>{const raw=ctx.raw||0;return `${ctx.dataset.label}: ${ctx.dataset.money?money(raw):num(raw)}`}}}},scales:{x:{grid:{display:false},ticks:{maxRotation:0,autoSkip:true}},y:{beginAtZero:false,ticks:{callback:v=>options.money?money(v):num(v)}}},...options}});}
+function barChart(id,labels,values,label,isMoney=false,color='#006241',horizontal=false){makeChart(id,'bar',labels,[{label,data:values,backgroundColor:color,borderRadius:8,money:isMoney}],{money:isMoney,indexAxis:horizontal?'y':'x'});}
+function lineChart(id,labels,datasets,isMoney=false){makeChart(id,'line',labels,datasets.map(d=>({...d,tension:.35,borderWidth:3,pointRadius:3,fill:false,money:isMoney})),{money:isMoney});}

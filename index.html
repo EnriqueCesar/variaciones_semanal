@@ -1,120 +1,44 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#0b5d43" />
-  <title>Variaciones Producto · Mejora Continua</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-</head>
-<body>
-  <div class="shell">
-    <header class="hero">
-      <div class="brand">
-        <img src="assets/logo.svg" alt="Variaciones" />
-        <div>
-          <p class="eyebrow">Mejora continua · Centro Norte</p>
-          <h1>Variaciones de Producto</h1>
-          <span id="dataStatus">Cargando archivo semanal…</span>
-        </div>
-      </div>
-      <div class="heroActions">
-        <label class="uploadBtn">
-          Cambiar Excel
-          <input id="fileInput" type="file" accept=".xlsx,.xls" />
-        </label>
-        <button id="resetBtn" class="ghost">Limpiar filtros</button>
-      </div>
-    </header>
-
-    <section class="filters card">
-      <div class="filter"><label>DM</label><select id="dmFilter"></select></div>
-      <div class="filter"><label>Tienda</label><select id="storeFilter"></select></div>
-      <div class="filter"><label>Tipo tienda</label><select id="typeFilter"></select></div>
-      <div class="filter"><label>Categoría / familia</label><select id="catFilter"></select></div>
-      <div class="filter"><label>Ingrediente</label><input id="itemSearch" placeholder="Buscar producto…" /></div>
-      <div class="filter"><label>Año</label><select id="yearFilter"></select></div>
-      <div class="filter"><label>Mes</label><select id="monthFilter"></select></div>
-      <div class="filter"><label>Semana</label><select id="weekFilter"></select></div>
-      <div class="filter"><label>Enfoque</label><select id="sideFilter"><option value="all">Todo</option><option value="faltante">Faltantes (+)</option><option value="sobrante">Sobrantes (-)</option></select></div>
-      <div class="filter"><label>Medir por</label><select id="metricFilter"><option value="money">Dinero $</option><option value="qty">Cantidad #</option></select></div>
-      <div class="filter"><label>Top</label><select id="topFilter"><option>10</option><option>15</option><option selected>20</option><option>25</option><option>30</option></select></div>
-    </section>
-
-    <section class="kpis">
-      <article class="kpi card"><span>Impacto total</span><strong id="kpiImpact">$0</strong><small id="kpiRecords">0 registros</small></article>
-      <article class="kpi card danger"><span>Sobrantes</span><strong id="kpiSobrantes">$0</strong><small id="kpiSobrantesQty">0 unidades</small></article>
-      <article class="kpi card dark"><span>Faltantes</span><strong id="kpiFaltantes">$0</strong><small id="kpiFaltantesQty">0 unidades</small></article>
-      <article class="kpi card"><span>Score mejora</span><strong id="kpiScore">0</strong><small id="kpiTrend">Sin tendencia</small></article>
-    </section>
-
-    <section class="alerts card">
-      <div><p class="eyebrow">alertas inmediatas</p><h2>Prioridades de acción</h2></div>
-      <div id="alertsList" class="alertsList"></div>
-    </section>
-
-    <main class="grid">
-      <section class="card wide">
-        <div class="cardHead">
-          <div><p class="eyebrow">tendencia</p><h2>Impacto por semana / mes</h2></div>
-          <button class="mini" data-export="trend">Exportar tendencia</button>
-        </div>
-        <canvas id="trendChart" height="130"></canvas>
-      </section>
-
-      <section class="card">
-        <div class="cardHead"><div><p class="eyebrow">dónde focalizar</p><h2>Faltante vs sobrante</h2></div></div>
-        <canvas id="mixChart" height="190"></canvas>
-      </section>
-
-      <section class="card wide">
-        <div class="cardHead">
-          <div><p class="eyebrow">producto crítico</p><h2 id="topTitle">Top impacto por ingrediente</h2></div>
-          <button class="mini" data-export="top">Exportar top</button>
-        </div>
-        <div id="topBars" class="bars"></div>
-      </section>
-
-      <section class="card">
-        <div class="cardHead"><div><p class="eyebrow">pareto</p><h2>80/20 del impacto</h2></div></div>
-        <canvas id="paretoChart" height="180"></canvas>
-      </section>
-
-      <section class="card wide">
-        <div class="cardHead">
-          <div><p class="eyebrow">producto seleccionado</p><h2 id="selectedName">Costo unitario y variación</h2></div>
-        </div>
-        <div class="selectedGrid">
-          <div><canvas id="unitCostChart" height="135"></canvas></div>
-          <div><canvas id="itemTrendChart" height="135"></canvas></div>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="cardHead"><div><p class="eyebrow">tienda / dm</p><h2>Ranking de oportunidad</h2></div><button class="mini" data-export="store">Exportar ranking</button></div>
-        <div id="storeRanking" class="rankList"></div>
-      </section>
-
-      <section class="card wide">
-        <div class="cardHead"><div><p class="eyebrow">heatmap semanal</p><h2>Semanas con mayor impacto</h2></div></div>
-        <div id="heatmap" class="heatmap"></div>
-      </section>
-
-      <section class="card wide full">
-        <div class="cardHead">
-          <div><p class="eyebrow">detalle exportable</p><h2>Tabla dinámica</h2></div>
-          <button class="mini" data-export="detail">Exportar tabla</button>
-        </div>
-        <div class="tableWrap"><table id="detailTable"></table></div>
-      </section>
-    </main>
-  </div>
-  <script src="config.js"></script>
-  <script src="charts.js"></script>
-  <script src="app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Variaciones de Producto | Mejora continua</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#006241">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head><body>
+<header class="hero">
+  <div class="brand"><img src="assets/logo.svg" alt=""><div><b>Variaciones de Producto</b><span>Centro Norte · mejora continua</span></div></div>
+  <div class="heroGrid"><div><p class="eyebrow">Dashboard Ejecutivo</p><h1>Menos ruido. Más acción.</h1><p class="note"><b class="red">Negativo = sobrante.</b> <b>Positivo = faltante.</b> Impacto $ = costo de varianza.</p></div><div class="legend"><span><i class="dot redBg"></i>Sobrante</span><span><i class="dot blackBg"></i>Faltante</span><span><i class="dot greenBg"></i>Mejora</span></div></div>
+</header>
+<main>
+<nav class="tabs"><button class="tab active" data-tab="store">Tienda</button><button class="tab" data-tab="dm">DM</button><button class="tab" data-tab="deep">Drill-down</button></nav>
+<section class="panel filters">
+  <div><label>Año</label><select id="yearFilter"></select></div>
+  <div><label>Mes</label><select id="monthFilter"></select></div>
+  <div><label>Semanas múltiples</label><select id="weekFilter" multiple size="4"></select><small>Ctrl/Cmd para elegir varias</small></div>
+  <div><label>DM</label><select id="dmFilter"></select></div>
+  <div><label>Tienda</label><select id="storeFilter"></select></div>
+  <div><label>Categoría</label><select id="catFilter"></select></div>
+  <div><label>Ingrediente</label><input id="ingredientInput" list="ingredientList" placeholder="Buscar y agregar"><datalist id="ingredientList"></datalist><div id="ingredientChips" class="chips"></div></div>
+  <div><label>Vista</label><select id="metricFilter"><option value="money">Impacto $</option><option value="qty">Varianza #</option></select></div>
+  <div><label>Top</label><select id="topN"></select></div>
+  <div class="actions"><button id="clearBtn">Limpiar</button><button id="csvBtn">Exportar CSV</button><button id="pdfBtn">PDF horizontal</button></div>
+</section>
+<section class="kpis">
+  <article><span>Impacto neto $</span><b id="kImpact">$0</b><small id="kRows">0 registros</small></article>
+  <article><span>Faltantes</span><b id="kMissing">0</b><small>varianza positiva</small></article>
+  <article><span>Sobrantes</span><b id="kSurplus" class="red">0</b><small>varianza negativa</small></article>
+  <article><span>Score salud</span><b id="kScore">0</b><div class="bar"><i id="scoreBar"></i></div></article>
+  <article><span>Productos</span><b id="kProducts">0</b><small>con variación</small></article>
+</section>
+<section id="storeTab" class="tabPanel active">
+  <div class="grid two"><article class="panel"><div class="title"><h2>Impacto $ por semana</h2><small>Faltante vs sobrante</small></div><canvas id="moneyTrend"></canvas></article><article class="panel"><div class="title"><h2>Varianza # por semana</h2><small>Cantidad faltante/sobrante</small></div><canvas id="qtyTrend"></canvas></article></div>
+  <div class="grid two"><article class="panel"><div class="title"><h2>Top faltantes</h2><select id="topMissingN"></select></div><div id="topMissing" class="rank"></div></article><article class="panel"><div class="title"><h2>Top sobrantes</h2><select id="topSurplusN"></select></div><div id="topSurplus" class="rank"></div></article></div>
+  <div class="grid two"><article class="panel"><div class="title"><h2>Costo unitario</h2><small id="selectedProductLabel">Producto crítico</small></div><canvas id="unitCostChart"></canvas></article><article class="panel"><div class="title"><h2>Alertas inmediatas</h2><small>Prioridad de acción</small></div><div id="alerts" class="alerts"></div></article></div>
+</section>
+<section id="dmTab" class="tabPanel"><div class="grid two"><article class="panel"><h2>Tiendas por impacto $</h2><canvas id="storeImpactChart"></canvas></article><article class="panel"><h2>Tiendas por varianza #</h2><canvas id="storeQtyChart"></canvas></article></div><article class="panel"><h2>Mapa rápido por tienda</h2><div id="storeCards" class="storeCards"></div></article></section>
+<section id="deepTab" class="tabPanel"><article class="panel"><div class="title"><h2>Drill-down operativo</h2><div class="sorts"><button data-sort="impactDesc">Impacto $ ↓</button><button data-sort="impactAsc">Impacto $ ↑</button><button data-sort="qtyDesc">Varianza # ↓</button><button data-sort="qtyAsc">Varianza # ↑</button></div></div><div class="tableWrap"><table id="detailTable"><thead><tr><th>DM</th><th>Tienda</th><th>Mes</th><th>Semana</th><th>Categoría</th><th>Ingrediente</th><th>Costo unit.</th><th>Varianza #</th><th>Impacto $</th><th>Tipo</th></tr></thead><tbody></tbody></table></div></article></section>
+</main>
+<footer>Versión 4.0 · enfoque SM/DM · raíz GitHub Pages</footer>
+<script src="config.js"></script><script src="charts.js"></script><script src="app.js"></script>
+</body></html>
