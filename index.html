@@ -1,78 +1,29 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#006241" />
-  <title>Variaciones de Producto</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="icon" href="assets/logo.svg" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div id="boot" class="boot"><img src="assets/logo.svg" alt=""><strong>Cargando variaciones...</strong><span>Preparando filtros dinámicos y tendencias.</span></div>
-  <header class="hero">
-    <nav class="topbar">
-      <div class="brand"><img src="assets/logo.svg" alt="Logo"><div><b>Variaciones de Producto</b><span>Analiza · Controla · Mejora</span></div></div>
-      <div class="top-actions"><button id="themeBtn" class="ghost">☾ Tema</button><button id="installBtn" class="primary hidden">Instalar PWA</button></div>
-    </nav>
-    <section class="hero-grid">
-      <div>
-        <p id="lastUpdate" class="eyebrow">Base_Mes_Semana · lectura por semana</p>
-        <h1>Visibilidad rápida para tomar decisiones</h1>
-        <p class="subtitle">Filtra por Año → Mes → Semana → Tienda → Categoría → Ingrediente. El mes se calcula desde la pestaña <b>Base_Mes_Semana</b>, no depende de espacios en blanco.</p>
-        <div class="legend"><span><i class="dot red"></i>Sobrante: varianza negativa</span><span><i class="dot black"></i>Faltante: varianza positiva</span><span><i class="dot green"></i>Controlado: bajo impacto</span></div>
-      </div>
-      <aside class="hero-card"><b>Score de salud</b><div id="healthScore" class="health">--</div><small id="healthText">Calculado sobre el impacto filtrado.</small></aside>
-    </section>
-  </header>
-
-  <main class="shell">
-    <section class="filters-card">
-      <div class="section-title"><span>Filtros dinámicos</span><button id="resetBtn" class="ghost small">Limpiar filtros</button></div>
-      <div class="filters">
-        <label>Año<select id="yearFilter"></select></label>
-        <label>Mes<select id="monthFilter"></select></label>
-        <label>Semana<select id="weekFilter"></select></label>
-        <label>DM<select id="dmFilter"></select></label>
-        <label>Tienda<select id="storeFilter"></select></label>
-        <label>Categoría<select id="categoryFilter"></select></label>
-        <label>Ingrediente<select id="ingredientFilter"></select></label>
-        <label>Impacto<select id="impactFilter"><option value="all">Todos</option><option value="sobrante">Sobrantes / negativos</option><option value="faltante">Faltantes / positivos</option><option value="alto">Alto impacto</option></select></label>
-      </div>
-      <div class="quick-search"><input id="searchInput" placeholder="Buscar tienda, categoría o producto..." /><button id="exportCsv" class="primary">Exportar CSV</button><button id="printBtn" class="ghost">PDF / Imprimir</button></div>
-    </section>
-
-    <section class="kpis" id="kpis"></section>
-
-    <section class="grid two">
-      <article class="panel wide"><div class="panel-head"><div><small>Tendencia mensual</small><h2>Costo de varianza en dinero</h2></div><select id="trendMode"><option value="month">Mensual</option><option value="week">Semanal</option></select></div><canvas id="moneyTrend" height="150"></canvas></article>
-      <article class="panel"><div class="panel-head"><div><small>Lectura del impacto</small><h2>Faltantes vs Sobrantes</h2></div></div><canvas id="impactSplit" height="180"></canvas></article>
-    </section>
-
-    <section class="grid two">
-      <article class="panel"><div class="panel-head"><div><small>Producto crítico</small><h2>Top impacto por ingrediente</h2></div></div><canvas id="topProducts" height="240"></canvas></article>
-      <article class="panel"><div class="panel-head"><div><small>Categoría</small><h2>Concentración de costo</h2></div></div><div id="categoryTreemap" class="treemap"></div></article>
-    </section>
-
-    <section class="grid two">
-      <article class="panel"><div class="panel-head"><div><small>Producto seleccionado</small><h2 id="selectedProductTitle">Costo unitario al tiempo</h2></div></div><canvas id="unitCostTrend" height="220"></canvas></article>
-      <article class="panel"><div class="panel-head"><div><small>Producto seleccionado</small><h2>Varianza $ y unidades</h2></div></div><canvas id="selectedVariance" height="220"></canvas></article>
-    </section>
-
-    <section class="panel"><div class="panel-head"><div><small>Mapa semanal</small><h2>HeatMap de impacto</h2></div><span class="muted">Rojo = sobrante, negro = faltante</span></div><div id="heatmap" class="heatmap"></div></section>
-
-    <section class="grid two">
-      <article class="panel"><div class="panel-head"><div><small>80/20</small><h2>Pareto de pérdidas / faltantes</h2></div></div><div id="pareto" class="list"></div></article>
-      <article class="panel"><div class="panel-head"><div><small>Alertas automáticas</small><h2>Acciones sugeridas</h2></div></div><div id="alerts" class="alerts"></div></article>
-    </section>
-
-    <section class="panel"><div class="panel-head"><div><small>Detalle operativo</small><h2>Registros filtrados</h2></div><span id="tableCount" class="pill">0 registros</span></div><div class="table-wrap"><table id="dataTable"><thead><tr><th>DM</th><th>Semana</th><th>Mes</th><th>Tienda</th><th>Categoría</th><th>Ingrediente</th><th>Costo unitario</th><th>Varianza (#)</th><th>Costo Varianza</th><th>Tipo</th></tr></thead><tbody></tbody></table></div></section>
-  </main>
-
-  <script src="config.js"></script>
-  <script src="data/data.js"></script>
-  <script src="charts.js"></script>
-  <script src="app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Variaciones de Producto · Centro Norte</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#006241">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head><body>
+<div id="boot" class="boot"><img src="assets/logo.svg"><h1>Variaciones de Producto</h1><p>Cargando información...</p></div>
+<header class="topbar">
+  <div class="brand"><img src="assets/logo.svg"><div><b>Variaciones de Producto</b><small>Región Centro Norte · Mejora continua</small></div></div>
+  <div class="actions"><button id="btnTheme">☾</button><button id="btnInstall" hidden>Instalar</button><label class="upload">Cargar Excel<input id="fileInput" type="file" accept=".xlsx,.xls"></label></div>
+</header>
+<main>
+<section class="hero">
+  <div><span class="eyebrow">Dashboard ejecutivo</span><h1>Detecta impacto, tendencia y prioridad de acción.</h1><p>Negativo = <b class="red">sobrante</b>. Positivo = <b class="black">faltante</b>. El costo de varianza muestra el impacto monetario.</p></div>
+  <div class="legend"><span><i class="dot red-bg"></i>Sobrante</span><span><i class="dot black-bg"></i>Faltante</span><span><i class="dot green-bg"></i>Mejora</span></div>
+</section>
+<section class="filters card">
+  <div><label>Año</label><select id="fYear"></select></div><div><label>Mes</label><select id="fMonth"></select></div><div><label>Semana</label><select id="fWeek"></select></div><div><label>DM</label><select id="fDM"></select></div><div><label>Tienda</label><select id="fStore"></select></div><div><label>Tipo tienda</label><select id="fType"></select></div><div><label>Categoría</label><select id="fCat"></select></div><div><label>Ingrediente</label><input id="fSearch" placeholder="Buscar producto..."></div><div><label>Vista</label><select id="fMetric"><option value="money">Dinero $</option><option value="qty">Cantidad #</option></select></div>
+</section>
+<section class="kpis"><article class="kpi"><small>Impacto $</small><strong id="kMoney">$0</strong><span id="kMoneyNote">Costo de varianza</span></article><article class="kpi"><small>Faltantes</small><strong id="kShort" class="black">0</strong><span>Varianza positiva</span></article><article class="kpi"><small>Sobrantes</small><strong id="kOver" class="red">0</strong><span>Varianza negativa</span></article><article class="kpi score"><small>Score salud</small><strong id="kScore">0</strong><div class="bar"><i id="scoreBar"></i></div></article><article class="kpi"><small>Productos</small><strong id="kItems">0</strong><span>Con variación</span></article></section>
+<section class="grid two"><article class="card"><div class="title"><h2>Tendencia semanal</h2><span id="trendHint"></span></div><canvas id="trendChart"></canvas></article><article class="card"><div class="title"><h2>Dinero vs Cantidad</h2><span>Validación cruzada</span></div><canvas id="mixChart"></canvas></article></section>
+<section class="grid two"><article class="card"><div class="title"><h2>Pareto 80/20</h2><span id="paretoHint"></span></div><canvas id="paretoChart"></canvas></article><article class="card"><div class="title"><h2>Heatmap semanal</h2><span>Intensidad por impacto</span></div><div id="heatmap" class="heatmap"></div></article></section>
+<section class="grid three"><article class="card"><h2>Top faltantes</h2><div id="topShort" class="rank"></div></article><article class="card"><h2>Top sobrantes</h2><div id="topOver" class="rank"></div></article><article class="card"><h2>Insights rápidos</h2><div id="insights" class="insights"></div></article></section>
+<section class="card"><div class="title"><h2>Drill-down operativo</h2><div><button id="btnCSV">Exportar CSV</button><button onclick="window.print()">PDF</button></div></div><div class="tableWrap"><table id="detail"><thead><tr><th>Mes</th><th>Sem</th><th>DM</th><th>Tienda</th><th>Tipo</th><th>Categoría</th><th>Ingrediente</th><th>Varianza #</th><th>Impacto $</th></tr></thead><tbody></tbody></table></div></section>
+</main><footer>Variaciones de Producto · Versión 2.0 ligera · GitHub Pages/PWA</footer>
+<script src="config.js"></script><script src="charts.js"></script><script src="app.js"></script>
+</body></html>

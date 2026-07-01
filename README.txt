@@ -1,32 +1,42 @@
-VARIACIONES DE PRODUCTO · Dashboard PWA
+VARIACIONES DE PRODUCTO · V2 LIGERA
 
-Proyecto listo para GitHub Pages / PWA.
+Objetivo
+- Dashboard PWA limpio para tomar decisiones rápidas sobre variaciones de producto.
+- Funciona en GitHub Pages y mantiene cada archivo por debajo de 20 MB.
 
-ARCHIVOS PRINCIPALES
-- index.html: estructura del dashboard.
-- style.css: diseño responsive verde premium.
-- app.js: filtros dinámicos, KPIs, tablas, exportación CSV e instalación PWA.
-- charts.js: motor gráfico canvas sin dependencias externas.
+Cómo subir a GitHub
+1. Descomprime el ZIP.
+2. Sube TODO el contenido directamente a la raíz del repositorio.
+3. En GitHub: Settings > Pages > Deploy from a branch > main > /(root).
+4. Espera el despliegue.
+
+Archivos principales
+- index.html: entrada del dashboard.
+- style.css: diseño limpio ejecutivo.
+- app.js: filtros, cálculos, tabla, exportación.
+- charts.js: gráficas.
 - config.js: configuración general.
-- data/data.json: base optimizada generada desde Variacion_Semanal.xlsx.
-- data/Variacion_Semanal.xlsx: archivo fuente incluido como respaldo.
-- assets/logo.svg: logotipo genérico del proyecto.
-- manifest.webmanifest + sw.js: soporte PWA/offline.
+- manifest.webmanifest y sw.js: PWA.
+- data/Variacion_Semanal.xlsx: archivo base de información.
+- assets/logo.svg e icon.svg: identidad genérica del proyecto.
 
-LÓGICA OPERATIVA
-- Varianza (#) = cantidad.
+Lectura de datos
+- El dashboard lee directamente data/Variacion_Semanal.xlsx.
+- Usa la hoja Variacion_Semanal para datos.
+- Usa Base_Mes_Semana para convertir Semana a Mes.
+- Si el Excel no carga por caché o ruta, usa el botón Cargar Excel.
+
+Reglas de lectura
+- Varianza (#) negativa = sobrante en conteo.
+- Varianza (#) positiva = faltante.
 - Costo de Varianza ($) = impacto monetario.
-- Varianza negativa = SOBRANTE EN CONTEO. Se muestra en rojo.
-- Varianza positiva = FALTANTE. Se muestra en negro.
-- El mes se calcula con la pestaña Base_Mes_Semana, evitando depender de celdas de mes en blanco.
 
-CÓMO PUBLICAR EN GITHUB
-1. Sube el contenido de esta carpeta al repositorio.
-2. Activa GitHub Pages desde Settings > Pages.
-3. Selecciona la rama main y carpeta root.
-4. Abre la URL generada.
+Enfoque de mejora continua
+- Prioriza productos con mayor impacto absoluto.
+- Permite ver tendencia semanal en dinero y unidades.
+- Pareto 80/20 ayuda a enfocar pocas causas de alto impacto.
+- Heatmap muestra semanas críticas rápidamente.
+- Ranking separa faltantes y sobrantes.
 
-CÓMO PROBAR LOCAL
-Abre index.html directo en Chrome. Para comportamiento PWA completo, usa un servidor local:
-python -m http.server 8000
-Luego abre http://localhost:8000
+Nota
+- El campo Tipo tienda queda preparado para integrar catálogo de tiendas. Si el Excel base incluye un catálogo por tienda, puede conectarse en app.js sin cambiar la experiencia.

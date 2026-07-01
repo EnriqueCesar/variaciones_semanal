@@ -1,1 +1,1 @@
-window.APP_CONFIG={appName:'Variaciones de Producto',brandLine:'Analiza · Controla · Mejora',defaultTheme:'light',riskLimit:1000,topLimit:12,monthOrder:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']};
+window.CONFIG={dataPath:'data/Variacion_Semanal.xlsx',region:'Centro Norte',months:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],scoreTarget:0.72,maxTableRows:350};
