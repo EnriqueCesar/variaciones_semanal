@@ -1,0 +1,1 @@
+window.APP_CONFIG={appName:'Variaciones de Producto',brandLine:'Analiza · Controla · Mejora',defaultTheme:'light',riskLimit:1000,topLimit:12,monthOrder:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']};
