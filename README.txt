@@ -1,4 +1,4 @@
-VARIACIONES DE PRODUCTO · MEJORA CONTINUA V3
+VARIACIONES DE PRODUCTO · MEJORA CONTINUA V3.1 AUDITADA
 
 Carga en GitHub Pages:
 1) Descomprime este ZIP.
@@ -21,14 +21,14 @@ Archivos clave:
 Lectura de datos:
 - Lee directo data/Variacion_Semanal.xlsx con SheetJS desde el navegador.
 - Si GitHub tarda o se usa localmente, usa el botón Cambiar Excel.
-- Usa hoja Variacion_Semanal y, si existe, Base_Mes_Semana para Año > Mes > Semana.
+- Detecta automáticamente la fila real de encabezados. Usa hoja Variacion_Semanal y, si existe, Base_Mes_Semana para Año > Mes > Semana.
 
 Regla operativa:
 - Varianza negativa = SOBRANTE, color rojo.
 - Varianza positiva = FALTANTE, color negro.
 - Costo de Varianza = impacto monetario.
 
-Mejoras V3:
+Mejoras V3.1:
 - Filtros dinámicos DM, tienda, tipo, categoría, ingrediente, año, mes, semana, enfoque y top.
 - Top configurable 10, 15, 20, 25, 30.
 - Vista por dinero o por cantidad.

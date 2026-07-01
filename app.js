@@ -21,11 +21,22 @@ function bind(){
 }
 async function loadExcelUrl(path){const r=await fetch(path); if(!r.ok)throw new Error('fetch'); const b=await r.arrayBuffer(); parseWorkbook(XLSX.read(b,{type:'array'}));}
 function loadExcelFile(file){const fr=new FileReader();fr.onload=e=>parseWorkbook(XLSX.read(e.target.result,{type:'array'}));fr.readAsArrayBuffer(file)}
+function sheetJsonSmart(ws,required=['Año','Semana']){
+  const matrix=XLSX.utils.sheet_to_json(ws,{header:1,defval:'',blankrows:false});
+  let headerIndex=0;
+  for(let i=0;i<Math.min(matrix.length,15);i++){
+    const row=matrix[i].map(v=>norm(v));
+    const hits=required.filter(k=>row.includes(k)).length;
+    if(hits>=required.length){headerIndex=i;break}
+  }
+  return XLSX.utils.sheet_to_json(ws,{defval:'',range:headerIndex});
+}
 function parseWorkbook(wb){
+  state.weekMap=new Map();
   const ws=wb.Sheets[CONFIG.preferredSheet]||wb.Sheets[wb.SheetNames.find(n=>/variacion/i.test(n))]||wb.Sheets[wb.SheetNames[0]];
   const weekWs=wb.Sheets[CONFIG.weekSheet]||wb.Sheets[wb.SheetNames.find(n=>/base|mes|semana/i.test(n))];
-  if(weekWs){XLSX.utils.sheet_to_json(weekWs,{defval:''}).forEach(r=>{const y=norm(r['Año']||r['Anio']); const w=Number(r['Semana']); const m=norm(r['Mes']); if(y&&w&&m) state.weekMap.set(`${y}-${w}`,m);});}
-  const raw=XLSX.utils.sheet_to_json(ws,{defval:''});
+  if(weekWs){sheetJsonSmart(weekWs,['Año','Semana']).forEach(r=>{const y=norm(r['Año']||r['Anio']); const w=Number(r['Semana']); const m=norm(r['Mes']); if(y&&w&&m) state.weekMap.set(`${y}-${w}`,m);});}
+  const raw=sheetJsonSmart(ws,['Año','Semana','Tiendas']);
   state.raw=raw.map(toRow).filter(r=>r.year&&r.week&&r.store&&r.item);
   state.selectedItem=null; hydrateFilters(); apply();
   $('dataStatus').textContent=`${state.raw.length.toLocaleString('es-MX')} registros cargados · ${new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})}`;
